@@ -7,7 +7,7 @@ public class Cachorro {
     public String raca;
     public float peso;
     public int altura;
-    
+
     private static final String LABRADOR = "labrador";
     private static final String BULDOGUE = "buldogue";
     private static final String POODLE = "poodle";
@@ -28,12 +28,11 @@ public class Cachorro {
             System.out.println("Raca invalida!");
         }
     }
-    
 
     public String latir(int latidos) {
 
         String latido = "";
-        
+
         if (LABRADOR.equalsIgnoreCase(raca)) {
             latido = "Au, Au ";
         } else if (BULDOGUE.equalsIgnoreCase(raca)) {
@@ -48,58 +47,119 @@ public class Cachorro {
         for (int cont = 1; cont <= latidos; cont++) {
             mensagem += latido;
         }
-        
-        return mensagem;
 
-        /*
-        for (int cont = 1; cont <= latidos; cont++) {
-            if ("labrador".equalsIgnoreCase(raca)) {
-                System.out.print("Au, Au ");
-            } else if ("buldogue".equalsIgnoreCase(raca)) {
-                System.out.print("Woof, Woof ");
-            } else if ("pug".equalsIgnoreCase(raca)) {
-                System.out.print("Ruff, Ruff ");
-            } else if ("poodle".equalsIgnoreCase(raca)) {
-                System.out.print("Yip, Yip ");
-            }
-        }
-         */
+        return mensagem;
     }
 
     private float calcularPesoMaximo() {
         return this.altura / 2;
     }
-    
+
     public void comer(float quantidadeComida) {
         float pesoMaximo = calcularPesoMaximo();
-        double pesoMagro = pesoMaximo*0.3;
-        double pesoGordo = pesoMaximo*0.7;
-        
+        double pesoMagro = pesoMaximo * 0.3;
+        double pesoGordo = pesoMaximo * 0.7;
+
         if (this.peso + quantidadeComida > pesoMaximo) {
             System.out.println("Se o seu cachorro comer tudo isso, vai explodir!");
         } else {
-            this.peso += quantidadeComida;           
-            
+            this.peso += quantidadeComida;
+
             if (this.peso < pesoMagro) {
                 System.out.println("Seu cachorro esta magricelo!");
             } else if (this.peso >= pesoMagro && this.peso <= pesoGordo) {
-                System.out.println("Seu cachorro esta em forma!");                
+                System.out.println("Seu cachorro esta em forma!");
             } else {
                 System.out.println("Seu cachorro esta obeso!");
             }
         }
+
+    }
+
+    public void andar(float distanciaPercorrida) {
+
+        if (this.peso < calcularPesoMaximo() * 0.3) {
+            System.out.println("Seu cachorro esta com peso abaixo de 30%, "
+                    + "nao pode andar.");
+            return;
+        }
         
+        float pesoPerdido = (float) (calcularPesoMaximo()*0.001);
+        float quantidadePercorrido = distanciaPercorrida / 100;
+        float pesoTotalPerdido = pesoPerdido * quantidadePercorrido;
+        
+        if (this.peso - pesoTotalPerdido < calcularPesoMaximo()*0.15) {
+            System.out.println("Seu cachorro vai ficar com peso abaixo de "
+                    + "15%, nao pode andar.");
+            return;
+        }
+        
+        this.peso = this.peso - pesoTotalPerdido;
+        
+        float pesoMaximo = calcularPesoMaximo();
+        double pesoMagro = pesoMaximo * 0.3;
+        double pesoGordo = pesoMaximo * 0.7;
+
+        if (this.peso < pesoMagro) {
+            System.out.println("Seu cachorro ficou magricelo!");
+        } else if (this.peso >= pesoMagro && this.peso <= pesoGordo) {
+            System.out.println("Seu cachorro continua em forma!");
+        } else {
+            System.out.println("Seu cachorro continua obeso!");
+        }
+
     }
 
-    public void andar() {
+    public void correr(float distanciaPercorrida) {
 
+        if (this.peso < calcularPesoMaximo() * 0.3) {
+            System.out.println("Seu cachorro esta com peso abaixo de 30%, "
+                    + "nao pode andar.");
+            return;
+        }
+        
+        float pesoPerdido = (float) (calcularPesoMaximo()*0.0025);
+        float quantidadePercorrido = distanciaPercorrida / 100;
+        float pesoTotalPerdido = pesoPerdido * quantidadePercorrido;
+        
+        if (this.peso - pesoTotalPerdido < calcularPesoMaximo()*0.15) {
+            System.out.println("Seu cachorro vai ficar com peso abaixo de "
+                    + "15%, nao pode andar.");
+            return;
+        }
+        
+        this.peso = this.peso - pesoTotalPerdido;
+        
+        float pesoMaximo = calcularPesoMaximo();
+        double pesoMagro = pesoMaximo * 0.3;
+        double pesoGordo = pesoMaximo * 0.7;
+
+        if (this.peso < pesoMagro) {
+            System.out.println("Seu cachorro ficou magricelo!");
+        } else if (this.peso >= pesoMagro && this.peso <= pesoGordo) {
+            System.out.println("Seu cachorro continua em forma!");
+        } else {
+            System.out.println("Seu cachorro continua obeso!");
+        }
     }
 
-    public void correr() {
-
-    }
-
-    public void pular() {
-
+    public void pular(float alturaPulada) {
+        alturaPulada  = alturaPulada * 100;
+        float alturaMaxima = this.altura * 3;
+        
+        if (alturaPulada > alturaMaxima) {
+            System.out.println("Seu cachorro nao conseguiu pular!");
+            return;
+        }
+        
+        if (alturaPulada < alturaMaxima*0.2) {
+            System.out.println("Seu cachorro pulou baixo!");
+        } else if (alturaPulada >= alturaMaxima*0.2 
+                && alturaPulada <= alturaMaxima*0.6) {
+            System.out.println("Seu cachorro pulou!");            
+        } else {
+            System.out.println("Seu cachorro pulou alto!");
+        }
+        
     }
 }
