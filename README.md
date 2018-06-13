@@ -10,3 +10,4 @@ Repositório da aplicação de exemplo da matéria de Programação Orientada a 
  - [Aula 05 - Interface GUI - JOptionPane](https://docs.google.com/presentation/d/1lEriEOYvy3LliUMtu7DPqIE-EzEjkucZkF94F38Bxik/edit?usp=sharing)
  - [Aula 06 - Interface GUI - Criando telas](https://docs.google.com/presentation/d/1eSp6X0zs_ynuKJZkk84cxqZ6vx1-hrTHwoIKLrmGlt0/edit?usp=sharing) 
  - [Aula 07 - Aplicação com Banco de Dados - Criando a interface](https://docs.google.com/presentation/d/1QU5mWL0ZL9FXekqPrpnFKFdilsxu2BC6V4S8wTI0-BE/edit?usp=sharing)
+ - [Aula 08 - CRUD - Create](https://docs.google.com/presentation/d/1F98874goSS2Pp9Ccr-z4q2WBJdDzxakJmm8ZHut1ieA/edit?usp=sharing)
