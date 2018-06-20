@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import javax.swing.JOptionPane;
 import modelo.Cliente;
 
 public class ClienteControle {
@@ -12,10 +13,10 @@ public class ClienteControle {
         
         try {
             Connection con = DriverManager.getConnection(
-                    "jdbc:mysql://localhost:3306/aplicacao_java", "root", "root");
+                    "jdbc:mysql://localhost:3306/aplicacao_java", "root", "QTAZh88_");
             
             String sql = "INSERT INTO clientes("
-                    + "nome, cpfCnpj, telefone, email, dataNascimento) "
+                    + "nome, cpfCnpf, telefone, email, dataNascimento) "
                     + "values (?,?,?,?,?)";
             
             PreparedStatement statement= con.prepareStatement(sql);
@@ -32,6 +33,7 @@ public class ClienteControle {
             return retorno;
             
         } catch (SQLException ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
             return false;
         }
     }

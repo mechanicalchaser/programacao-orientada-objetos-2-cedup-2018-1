@@ -5,6 +5,13 @@
  */
 package layout;
 
+import controle.ClienteControle;
+import java.awt.Color;
+import java.sql.Date;
+import java.util.Calendar;
+import javax.swing.JOptionPane;
+import modelo.Cliente;
+
 /**
  *
  * @author lucas-linux
@@ -62,6 +69,11 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         jLabel6.setText("Data Nasc.:");
 
         botaoSalvar.setText("Salvar");
+        botaoSalvar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                botaoSalvarActionPerformed(evt);
+            }
+        });
 
         botaoCancelar.setText("Cancelar");
 
@@ -85,28 +97,26 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 35, Short.MAX_VALUE)
                         .addComponent(campoCnpjCpf, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(235, 235, 235))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel4)
-                            .addComponent(jLabel5))
-                        .addGap(44, 44, 44)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(campoEmail)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(campoDDD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(66, 66, 66)
+                        .addComponent(campoEmail))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel6)
-                                .addGap(31, 31, 31)
-                                .addComponent(campoDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jLabel4)
+                                .addGap(44, 44, 44)
+                                .addComponent(campoDDD, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(campoTelefone, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(botaoSalvar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(botaoCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(botaoCancelar, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel6)
+                                .addGap(31, 31, 31)
+                                .addComponent(campoDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, 160, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -140,7 +150,7 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
                     .addComponent(campoDataNascimento, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(botaoSalvar)
                     .addComponent(botaoCancelar))
@@ -150,6 +160,65 @@ public class CadastroCliente extends javax.swing.JInternalFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void botaoSalvarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botaoSalvarActionPerformed
+        
+        Cliente cliente = new Cliente();
+        
+        cliente.setNome(campoNome.getText());
+        cliente.setCpfCnpj(campoCnpjCpf.getText());
+        cliente.setTelefone(campoDDD.getText().concat(" ")
+                .concat(campoTelefone.getText()));
+        cliente.setEmail(campoEmail.getText());
+        
+        Calendar data = Calendar.getInstance();
+        try {            
+            
+            int ano = Integer.parseInt(campoDataNascimento.getText(6,4));
+            int mes = Integer.parseInt(campoDataNascimento.getText(3,2));
+            int dia = Integer.parseInt(campoDataNascimento.getText(0,2));
+            
+            data.set(ano, mes, dia);
+            
+        } catch (Exception e) {
+            
+        }
+        Date dataNascimento = new Date(data.getTime().getTime());
+        cliente.setDataNascimento(dataNascimento);
+        
+        if (!validarDados(cliente)) {
+            return;
+        }
+        
+        ClienteControle crud = new ClienteControle();
+        boolean retorno = crud.inserir(cliente);
+        
+        if (!retorno) {
+            JOptionPane.showMessageDialog(this, "Cliente salvo com sucesso!");
+            limpar();
+        } else {
+            JOptionPane.showMessageDialog(this, "Erro ao salvar o cliente!");
+        }
+    }//GEN-LAST:event_botaoSalvarActionPerformed
+    
+    private void limpar() {
+        campoCodigo.setText("");
+        campoNome.setText("");
+        campoCnpjCpf.setText("");
+        campoDDD.setText("");
+        campoTelefone.setText("");
+        campoEmail.setText("");
+        campoDataNascimento.setText("");
+    }
+    
+    private boolean validarDados(final Cliente cliente) {
+        
+        if (cliente.getNome().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Campo nome esta vazio!");            
+            return false;
+        }
+        
+        return true;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton botaoCancelar;
